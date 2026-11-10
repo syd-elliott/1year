@@ -80,7 +80,27 @@ const wordData = {
 };
 
 const words = Object.keys(wordData);
-let currentWord = words[Math.floor(Math.random() * words.length)];
+
+// Check if a sequence order has already been generated and saved
+let playSequence = JSON.parse(localStorage.getItem("wordle_sequence"));
+let sequenceIndex = parseInt(
+  localStorage.getItem("wordle_sequence_index") || "0",
+  10
+);
+
+// If it's the first time playing (or sequence is finished), generate a random starting order with no repeats
+if (!playSequence || sequenceIndex >= playSequence.length) {
+  playSequence = Array.from({ length: words.length }, (_, i) => i);
+  for (let i = playSequence.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [playSequence[i], playSequence[j]] = [playSequence[j], playSequence[i]];
+  }
+  sequenceIndex = 0;
+  localStorage.setItem("wordle_sequence", JSON.stringify(playSequence));
+  localStorage.setItem("wordle_sequence_index", sequenceIndex);
+}
+
+let currentWord = words[playSequence[sequenceIndex]];
 let wordLength = currentWord.length;
 
 const gameTitle = document.getElementById("game-title");
@@ -108,10 +128,25 @@ function initGame() {
   currentTile = 0;
   isGameOver = false;
 
-  currentWord = words[Math.floor(Math.random() * words.length)];
+  // Advance through the randomized sequence without repeating
+  sequenceIndex++;
+
+  if (sequenceIndex >= words.length) {
+    playSequence = Array.from({ length: words.length }, (_, i) => i);
+    for (let i = playSequence.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [playSequence[i], playSequence[j]] = [playSequence[j], playSequence[i]];
+    }
+    sequenceIndex = 0;
+    localStorage.setItem("wordle_sequence", JSON.stringify(playSequence));
+  }
+
+  localStorage.setItem("wordle_sequence_index", sequenceIndex);
+
+  currentWord = words[playSequence[sequenceIndex]];
   wordLength = currentWord.length;
 
-  gameTitle.classList.remove("hide-title"); // Show title again on restart
+  gameTitle.classList.remove("hide-title");
   playView.classList.remove("hidden");
   winScreen.classList.add("hidden");
   loseScreen.classList.add("hidden");
@@ -300,8 +335,8 @@ function flipTiles(guess, isCorrect) {
             }
           }
         }
-      }, 180);
-    }, index * 300);
+      }, 200);
+    }, index * 320);
   });
 }
 
@@ -355,24 +390,22 @@ function showMessage(message) {
 }
 
 function showWinScreen() {
-  gameTitle.classList.add("hide-title"); // Hide the main title on win screen
+  gameTitle.classList.add("hide-title");
   playView.classList.add("hidden");
   winScreen.classList.remove("hidden");
 
   const photoGallery = document.getElementById("photo-gallery");
   photoGallery.innerHTML = "";
 
-  // Make a copy of the photos array so we don't permanently alter the original order
   let photos = [...(wordData[currentWord] || [])];
 
   if (photos.length > 0) {
-    // Shuffle the photos array randomly (Fisher-Yates shuffle)
+    // Shuffle photos randomly for the scattered display
     for (let i = photos.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [photos[i], photos[j]] = [photos[j], photos[i]];
     }
 
-    // Display the randomized photos
     photos.forEach((photoSrc) => {
       const img = document.createElement("img");
       img.src = photoSrc;
@@ -385,7 +418,7 @@ function showWinScreen() {
 }
 
 function showLoseScreen() {
-  gameTitle.classList.add("hide-title"); // Hide the main title on lose screen
+  gameTitle.classList.add("hide-title");
   targetWordEl.textContent = currentWord.toUpperCase();
   playView.classList.add("hidden");
   loseScreen.classList.remove("hidden");
