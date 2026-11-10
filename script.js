@@ -69,13 +69,19 @@ function buildBoard() {
 
 function buildKeyboard() {
   keyboard.innerHTML = "";
-  keyboardRows.forEach((rowKeys) => {
+  keyboardRows.forEach((rowKeys, rowIndex) => {
     const rowElement = document.createElement("div");
     rowElement.classList.add("keyboard-row");
 
+    // Add half-key spacer at start of Row 2 (A-L) to match Wordle spacing
+    if (rowIndex === 1) {
+      const spacerLeft = document.createElement("div");
+      spacerLeft.classList.add("key-spacer");
+      rowElement.appendChild(spacerLeft);
+    }
+
     rowKeys.forEach((key) => {
       const keyElement = document.createElement("button");
-      // Use backspace symbol for the delete key like official Wordle
       keyElement.textContent = key === "backspace" ? "⌫" : key;
       keyElement.classList.add("key");
       keyElement.setAttribute("data-key", key);
@@ -84,14 +90,20 @@ function buildKeyboard() {
         keyElement.classList.add("wide-key");
       }
 
-      // CHANGED: Use "pointerdown" instead of "click" for instant typing response without delay
       keyElement.addEventListener("pointerdown", (e) => {
-        e.preventDefault(); // Prevents unwanted ghost clicks or focus shifts
+        e.preventDefault();
         handleKeyPress(key);
       });
 
       rowElement.appendChild(keyElement);
     });
+
+    // Add half-key spacer at end of Row 2 (A-L)
+    if (rowIndex === 1) {
+      const spacerRight = document.createElement("div");
+      spacerRight.classList.add("key-spacer");
+      rowElement.appendChild(spacerRight);
+    }
 
     keyboard.appendChild(rowElement);
   });

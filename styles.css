@@ -15,7 +15,6 @@ body {
   min-height: 100vh;
   padding: 0;
   overflow: hidden;
-  /* Prevents pull-to-refresh and unwanted gestures */
   overscroll-behavior: none;
 }
 
@@ -23,19 +22,22 @@ body {
   width: 100%;
   max-width: 500px;
   height: 100vh;
-  height: 100dvh; /* Dynamic viewport height for mobile browsers */
+  height: 100dvh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 6px 4px 10px 4px;
+  padding: 12px 8px 16px 8px;
   background-color: #121213;
 }
 
+/* Move Title down with top margin */
 h1 {
-  margin: 2px 0;
-  font-size: 1.2rem;
-  letter-spacing: 1px;
+  margin-top: 10px;
+  margin-bottom: 6px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
 }
 
 #play-view {
@@ -44,23 +46,23 @@ h1 {
   flex-direction: column;
   align-items: center;
   flex-grow: 1;
-  justify-content: flex-start; /* Pushes everything up closer together */
-  gap: 8px;
+  justify-content: center; /* Pushes content down comfortably towards the keyboard */
+  gap: 12px;
 }
 
-/* --- BOARD SIZING & TIGHT SPACING --- */
+/* --- BOARD SIZING --- */
 #board {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  width: min(340px, 94vw);
-  margin-top: 4px;
+  gap: 6px;
+  width: min(330px, 92vw);
+  margin: 0 auto;
 }
 
 .board-row {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 4px;
+  gap: 6px;
   width: 100%;
 }
 
@@ -68,7 +70,7 @@ h1 {
   width: 100%;
   aspect-ratio: 1;
   border: 2px solid #3a3a3c;
-  font-size: 2.3rem;
+  font-size: 2rem;
   font-weight: bold;
   text-transform: uppercase;
   display: flex;
@@ -76,9 +78,9 @@ h1 {
   justify-content: center;
   background-color: #121213;
   color: white;
-  border-radius: 4px;
+  border-radius: 2px;
   transition: transform 0.3s ease, background-color 0.3s ease;
-  touch-action: manipulation; /* Instant tap response without zoom delay */
+  touch-action: manipulation;
 }
 
 .tile.flip {
@@ -105,39 +107,43 @@ h1 {
 
 /* --- MESSAGE CONTAINER --- */
 #message-container {
-  height: 20px;
+  height: 24px;
   font-weight: bold;
   color: #f8f9fa;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0;
 }
 
-/* --- OFFICIAL WORDLE KEYBOARD STYLING (PINNED TO BOTTOM) --- */
+/* --- EXACT WORDLE KEYBOARD STYLING --- */
 #keyboard {
   display: flex;
   flex-direction: column;
   gap: 6px;
   width: 100%;
   max-width: 500px;
-  margin-top: auto; /* Pins keyboard cleanly to the bottom */
-  padding-bottom: 4px;
+  margin-top: auto;
+  padding: 0 4px;
 }
 
 .keyboard-row {
   display: flex;
   justify-content: center;
-  gap: 5px;
+  gap: 6px;
   width: 100%;
+}
+
+/* Half-key spacers for Row 2 (A-L) to match Wordle padding */
+.key-spacer {
+  flex: 0.5;
 }
 
 .key {
   flex: 1;
-  height: 54px;
-  background-color: #d3d6da; /* Official Wordle light-gray */
-  color: #1a1a1b; /* Dark text */
+  height: 58px; /* Taller, uniform rectangle keys */
+  background-color: #d3d6da;
+  color: #1a1a1b;
   border: none;
   cursor: pointer;
   text-transform: uppercase;
@@ -149,21 +155,21 @@ h1 {
   justify-content: center;
   user-select: none;
   padding: 0;
-  touch-action: manipulation; /* Instant click/tap response */
+  touch-action: manipulation;
   transition: background-color 0.1s ease;
 }
 
 .key.wide-key {
-  flex: 1.5;
-  font-size: 10px;
+  flex: 1.5; /* Enter and Backspace remain wider */
+  font-size: 11px;
   font-weight: 800;
 }
 
 .key:active {
-  background-color: #818384;
+  background-color: #a6a8ab;
 }
 
-/* Used letter states on keyboard */
+/* Color feedback on keys */
 .key.correct {
   background-color: #6aaa64 !important;
   color: white !important;
