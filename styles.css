@@ -2,6 +2,8 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  /* DISABLES DOUBLE-TAP ZOOM GLOBALLY ON MOBILE */
+  touch-action: manipulation;
 }
 
 body {
@@ -13,13 +15,13 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding: 20px;
+  padding: 10px;
 }
 
 #game-container {
   width: 100%;
-  max-width: 600px;
-  padding: 20px;
+  max-width: 500px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -27,24 +29,24 @@ body {
 }
 
 h1 {
-  margin-bottom: 20px;
-  font-size: 2.2rem;
+  margin-bottom: 10px; /* Tighter heading spacing */
+  font-size: 1.8rem;
 }
 
-/* --- BOARD SIZING FIXED --- */
+/* --- BOARD SIZING & TIGHTER SPACING --- */
 #board {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  width: 320px; /* Forces an immediate hard width so it never collapses on load */
+  gap: 6px; /* Reduced gap between rows */
+  width: 300px;
   max-width: 100%;
-  margin: 0 auto 20px auto;
+  margin: 0 auto 10px auto; /* Reduced bottom margin */
 }
 
 .board-row {
   display: grid;
-  grid-template-columns: repeat(5, 1fr); /* Default 5 columns */
-  gap: 8px;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px; /* Reduced gap between tiles */
   width: 100%;
 }
 
@@ -52,7 +54,7 @@ h1 {
   width: 100%;
   aspect-ratio: 1;
   border: 2px solid #3a3a3c;
-  font-size: 2.4rem;
+  font-size: 2.2rem;
   font-weight: bold;
   text-transform: uppercase;
   display: flex;
@@ -86,33 +88,42 @@ h1 {
   color: white;
 }
 
+/* --- MESSAGE CONTAINER --- */
+#message-container {
+  height: 24px;
+  font-weight: bold;
+  color: #f8f9fa;
+  margin-bottom: 6px; /* Reduced space between message and keyboard */
+  font-size: 1rem;
+}
+
 /* --- KEYBOARD SPACING --- */
 #keyboard {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px; /* Tighter rows */
   width: 100%;
-  max-width: 520px;
+  max-width: 480px;
   margin: 0 auto;
 }
 
 .keyboard-row {
   display: flex;
   justify-content: center;
-  gap: 6px;
+  gap: 5px; /* Tighter keys side-to-side */
   width: 100%;
 }
 
 .key {
   flex: 1;
-  height: 58px;
-  max-width: 50px;
+  height: 52px;
+  max-width: 45px;
   border: none;
   background-color: #818384;
   cursor: pointer;
   text-transform: uppercase;
   color: white;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: bold;
   border-radius: 4px;
   display: flex;
@@ -123,21 +134,12 @@ h1 {
 
 .key.wide-key {
   flex: 1.5;
-  max-width: 75px;
-  font-size: 12px;
+  max-width: 65px;
+  font-size: 11px;
 }
 
 .key:hover {
   background-color: #565758;
-}
-
-/* --- MESSAGE CONTAINER --- */
-#message-container {
-  height: 30px;
-  font-weight: bold;
-  color: #f8f9fa;
-  margin-bottom: 12px;
-  font-size: 1.1rem;
 }
 
 /* --- END SCREENS --- */
@@ -156,28 +158,28 @@ h1 {
 
 #photo-gallery {
   width: 100%;
-  max-width: 450px;
-  min-height: 200px;
-  margin: 15px 0;
-  padding: 15px;
+  max-width: 400px;
+  min-height: 180px;
+  margin: 10px 0;
+  padding: 12px;
   border: 2px dashed #3a3a3c;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 15px;
+  gap: 12px;
 }
 
 .photo-placeholder {
   color: #818384;
   font-style: italic;
-  font-size: 1rem;
+  font-size: 0.95rem;
 }
 
 #photo-gallery img {
   width: 100%;
-  max-width: 350px;
+  max-width: 320px;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
