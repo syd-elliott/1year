@@ -27,11 +27,11 @@ body {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  /* Added safe-area padding at the bottom so mobile toolbars don't cover the keyboard */
   padding: 8px 8px calc(16px + env(safe-area-inset-bottom, 0px)) 8px;
   background-color: #121213;
   position: relative;
   z-index: 2;
+  overflow-y: auto; /* Allows scrolling when content exceeds screen height */
 }
 
 h1 {
@@ -40,6 +40,11 @@ h1 {
   font-size: 1.3rem;
   font-weight: 700;
   letter-spacing: 1px;
+}
+
+/* Utility class to hide elements */
+.hide-title {
+  display: none !important;
 }
 
 #play-view {
@@ -83,7 +88,6 @@ h1 {
   background-color: #121213;
   color: white;
   border-radius: 2px;
-  /* Slower transition duration (0.4s instead of 0.3s) */
   transition: transform 0.4s ease, background-color 0.4s ease;
   touch-action: manipulation;
 }
@@ -218,15 +222,16 @@ h1 {
   }
 }
 
-/* --- END SCREENS --- */
+/* --- SCROLLABLE END SCREENS & SCATTERED PHOTOS --- */
 .end-screen {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 15px;
-  margin: auto 0;
   width: 100%;
-  padding: 20px;
+  padding: 15px 10px 30px 10px;
+  margin: auto 0;
+  overflow-y: visible;
 }
 
 .hidden {
@@ -235,17 +240,12 @@ h1 {
 
 #photo-gallery {
   width: 100%;
-  max-width: 400px;
-  min-height: 180px;
+  max-width: 420px;
   margin: 10px 0;
-  padding: 12px;
-  border: 2px dashed #3a3a3c;
-  border-radius: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 12px;
+  gap: 20px; /* Space between scattered photos */
 }
 
 .photo-placeholder {
@@ -254,11 +254,27 @@ h1 {
   font-size: 0.95rem;
 }
 
+/* Scattered Photo Card Styling */
 #photo-gallery img {
-  width: 100%;
-  max-width: 320px;
+  width: 85%;
+  max-width: 280px;
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
+  border: 3px solid #3a3a3c;
+  transition: transform 0.3s ease;
+}
+
+/* Rotate photos slightly in alternating directions for a scattered look */
+#photo-gallery img:nth-child(odd) {
+  transform: rotate(-3deg);
+}
+
+#photo-gallery img:nth-child(even) {
+  transform: rotate(3deg);
+}
+
+#photo-gallery img:hover {
+  transform: scale(1.03) rotate(0deg);
 }
 
 .btn {
@@ -271,6 +287,7 @@ h1 {
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.2s;
+  margin-top: 10px;
 }
 
 .btn:hover {

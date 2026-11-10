@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta charset="UTF-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
-    <title>2026 Wordle Game</title>
+    <title>Custom Wordle Game</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -13,19 +14,18 @@
     <div id="heart-container"></div>
 
     <div id="game-container">
-      <h1>WORDLE (2026 💚💜 edition)</h1>
+      <h1 id="game-title">Wordle (2026 💚💜 edition)</h1>
 
       <!-- Main Play View -->
-      <div id="play-view">
+      <div id="play-view" class="view-section">
         <div id="board"></div>
         <div id="message-container"></div>
         <div id="keyboard"></div>
       </div>
 
       <!-- Win Screen -->
-      <div id="win-screen" class="end-screen hidden">
+      <div id="win-screen" class="end-screen view-section hidden">
         <h2>🎉 Congratulations! 🎉</h2>
-        <p>You guessed the word correctly!</p>
 
         <div id="photo-gallery">
           <p class="photo-placeholder">Your custom photos will appear here!</p>
@@ -35,7 +35,7 @@
       </div>
 
       <!-- Lose Screen -->
-      <div id="lose-screen" class="end-screen hidden">
+      <div id="lose-screen" class="end-screen view-section hidden">
         <h2>Game Over</h2>
         <p>The word was: <strong id="target-word"></strong></p>
         <button class="btn restart-btn">Try Again</button>

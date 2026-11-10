@@ -1,18 +1,89 @@
 // Your custom words mapped to their corresponding photos
 const wordData = {
-  sortie: ["images/dogs1.jpg", "images/dogs2.jpg"],
-  gugels: ["images/europe1.jpg", "images/europe2.jpg", "images/europe3.jpg"],
-  arches: ["images/mango1.jpg"],
-  roscoe: ["images/dogs1.jpg", "images/dogs2.jpg"],
-  snowy: ["images/europe1.jpg", "images/europe2.jpg", "images/europe3.jpg"],
-  marmot: ["images/mango1.jpg"],
-  legos: ["images/mango1.jpg"],
+  sortie: [
+    "images/euro1.jpeg",
+    "images/euro2.jpeg",
+    "images/euro3.jpeg",
+    "images/euro4.jpeg",
+    "images/euro5.jpeg",
+    "images/euro6.jpeg",
+    "images/euro7.jpeg",
+    "images/euro8.jpeg",
+    "images/euro9.jpeg",
+    "images/euro10.jpeg",
+  ],
+  gugels: [
+    "images/run1.jpeg",
+    "images/run2.jpeg",
+    "images/run3.jpeg",
+    "images/run4.jpeg",
+    "images/run5.jpeg",
+    "images/run6.jpeg",
+    "images/run7.jpeg",
+    "images/run8.jpeg",
+  ],
+  arches: [
+    "images/arches-arch.jpeg",
+    "images/arches-double.jpeg",
+    "images/arches-feet.jpeg",
+    "images/arches-kiss.jpeg",
+    "images/arches-nice.jpeg",
+    "images/arches-pretty.jpeg",
+    "images/arches-skinny.jpeg",
+    "images/arches-us.jpeg",
+  ],
+  roscoe: [
+    "images/dogs-birthday.jpeg",
+    "images/dogs-cake.jpeg",
+    "images/dogs-crate.jpeg",
+    "images/dogs-deer.jpeg",
+    "images/dogs-halloween.jpeg",
+    "images/dogs-hike.jpeg",
+    "images/dogs-newyear.jpeg",
+    "images/dogs-syd.jpeg",
+    "images/dogs-carter.jpeg",
+  ],
+  snowy: [
+    "images/snowy1.jpeg",
+    "images/snowy2.jpeg",
+    "images/snowy3.jpeg",
+    "images/snowy4.jpeg",
+    "images/snowy5.jpeg",
+    "images/snowy6.jpeg",
+    "images/snowy7.jpeg",
+    "images/snowy8.jpeg",
+  ],
+  marmot: [
+    "images/glacier1.jpeg",
+    "images/glacier2.jpeg",
+    "images/glacier3.jpeg",
+    "images/glacier4.jpeg",
+    "images/glacier5.jpeg",
+    "images/glacier6.jpeg",
+    "images/glacier7.jpeg",
+    "images/glacier8.jpeg",
+    "images/glacier9.jpeg",
+  ],
+  legos: [
+    "images/lego1.jpeg",
+    "images/lego2.jpeg",
+    "images/lego3.jpeg",
+    "images/lego4.jpeg",
+    "images/lego5.jpeg",
+    "images/lego6.jpeg",
+    "images/lego7.jpeg",
+    "images/lego8.jpeg",
+    "images/lego9.jpeg",
+    "images/lego10.jpeg",
+    "images/lego11.jpeg",
+  ],
 };
 
 const words = Object.keys(wordData);
 let currentWord = words[Math.floor(Math.random() * words.length)];
 let wordLength = currentWord.length;
 
+const gameTitle = document.getElementById("game-title");
 const playView = document.getElementById("play-view");
 const winScreen = document.getElementById("win-screen");
 const loseScreen = document.getElementById("lose-screen");
@@ -40,6 +111,7 @@ function initGame() {
   currentWord = words[Math.floor(Math.random() * words.length)];
   wordLength = currentWord.length;
 
+  gameTitle.classList.remove("hide-title"); // Show title again on restart
   playView.classList.remove("hidden");
   winScreen.classList.add("hidden");
   loseScreen.classList.add("hidden");
@@ -228,15 +300,15 @@ function flipTiles(guess, isCorrect) {
             }
           }
         }
-      }, 200); // Adjusted midpoint timeout for slower flip
-    }, index * 320); // Increased stagger delay between tiles
+      }, 180);
+    }, index * 300);
   });
 }
 
 function triggerHeartFlood() {
   const container = document.getElementById("heart-container");
   container.innerHTML = "";
-  const heartSymbols = ["💚", "💜", "💖", "✨"]; // Updated to green and purple hearts!
+  const heartSymbols = ["💚", "💜", "💖", "✨"];
 
   for (let i = 0; i < 45; i++) {
     const heart = document.createElement("div");
@@ -249,7 +321,6 @@ function triggerHeartFlood() {
     container.appendChild(heart);
   }
 
-  // Clean up hearts after animation finishes
   setTimeout(() => {
     container.innerHTML = "";
   }, 3000);
@@ -284,15 +355,24 @@ function showMessage(message) {
 }
 
 function showWinScreen() {
+  gameTitle.classList.add("hide-title"); // Hide the main title on win screen
   playView.classList.add("hidden");
   winScreen.classList.remove("hidden");
 
   const photoGallery = document.getElementById("photo-gallery");
   photoGallery.innerHTML = "";
 
-  const photos = wordData[currentWord] || [];
+  // Make a copy of the photos array so we don't permanently alter the original order
+  let photos = [...(wordData[currentWord] || [])];
 
   if (photos.length > 0) {
+    // Shuffle the photos array randomly (Fisher-Yates shuffle)
+    for (let i = photos.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [photos[i], photos[j]] = [photos[j], photos[i]];
+    }
+
+    // Display the randomized photos
     photos.forEach((photoSrc) => {
       const img = document.createElement("img");
       img.src = photoSrc;
@@ -305,6 +385,7 @@ function showWinScreen() {
 }
 
 function showLoseScreen() {
+  gameTitle.classList.add("hide-title"); // Hide the main title on lose screen
   targetWordEl.textContent = currentWord.toUpperCase();
   playView.classList.add("hidden");
   loseScreen.classList.remove("hidden");
