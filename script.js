@@ -217,7 +217,7 @@ function flipTiles(guess, isCorrect) {
         if (index === wordLength - 1) {
           if (isCorrect) {
             isGameOver = true;
-            triggerHeartFlood(); // FLOOD SCREEN WITH HEARTS ON WIN!
+            triggerHeartFlood();
             setTimeout(showWinScreen, 1200);
           } else {
             currentRow++;
@@ -228,8 +228,8 @@ function flipTiles(guess, isCorrect) {
             }
           }
         }
-      }, 150);
-    }, index * 250);
+      }, 200); // Adjusted midpoint timeout for slower flip
+    }, index * 320); // Increased stagger delay between tiles
   });
 }
 
