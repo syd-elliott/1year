@@ -10,8 +10,6 @@ const wordData = {
 };
 
 const words = Object.keys(wordData);
-
-// 1. Pick initial word immediately so wordLength is known on page load
 let currentWord = words[Math.floor(Math.random() * words.length)];
 let wordLength = currentWord.length;
 
@@ -34,12 +32,25 @@ const keyboardRows = [
   ["enter", "z", "x", "c", "v", "b", "n", "m", "backspace"],
 ];
 
+// BULLETPROOF DOUBLE-TAP ZOOM PREVENTER FOR MOBILE
+let lastTouchEnd = 0;
+document.addEventListener(
+  "touchend",
+  (e) => {
+    const now = Date.now();
+    if (now - lastTouchEnd <= 300) {
+      e.preventDefault(); // Blocks rapid double-tap zoom
+    }
+    lastTouchEnd = now;
+  },
+  { passive: false }
+);
+
 function initGame() {
   currentRow = 0;
   currentTile = 0;
   isGameOver = false;
 
-  // Pick a new random word for the next round
   currentWord = words[Math.floor(Math.random() * words.length)];
   wordLength = currentWord.length;
 
@@ -57,14 +68,7 @@ function buildBoard() {
   for (let i = 0; i < 6; i++) {
     const row = document.createElement("div");
     row.classList.add("board-row");
-
-    // Add a helper class or explicit template so browser calculates width on load
-    if (wordLength === 6) {
-      row.classList.add("six-cols");
-      row.style.gridTemplateColumns = `repeat(6, minmax(0, 1fr))`;
-    } else {
-      row.style.gridTemplateColumns = `repeat(5, minmax(0, 1fr))`;
-    }
+    row.style.gridTemplateColumns = `repeat(${wordLength}, 1fr)`;
 
     for (let j = 0; j < wordLength; j++) {
       const tile = document.createElement("div");
@@ -258,6 +262,5 @@ document.querySelectorAll(".restart-btn").forEach((btn) => {
   btn.addEventListener("click", initGame);
 });
 
-// 2. Build the board immediately on script load so sizes are locked in before the first paint
 buildBoard();
 buildKeyboard();
