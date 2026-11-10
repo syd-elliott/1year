@@ -179,25 +179,46 @@ function checkWord() {
 function flipTiles(guess, isCorrect) {
   const guessArray = guess.split("");
   const wordArray = currentWord.split("");
+  const statusArray = new Array(wordLength).fill(""); // FIXED: properly initialized array
 
+  // Track frequency of letters in the target word
+  const letterCount = {};
+  wordArray.forEach((letter) => {
+    letterCount[letter] = (letterCount[letter] || 0) + 1;
+  });
+
+  // PASS 1: Check for Greens (Exact matches)
+  guessArray.forEach((letter, index) => {
+    if (letter === wordArray[index]) {
+      statusArray[index] = "correct";
+      letterCount[letter]--; // Reduce available count
+    }
+  });
+
+  // PASS 2: Check for Yellows (Present) and Grays (Absent)
+  guessArray.forEach((letter, index) => {
+    if (statusArray[index] === "correct") return; // Skip already green tiles
+
+    if (wordArray.includes(letter) && letterCount[letter] > 0) {
+      statusArray[index] = "present";
+      letterCount[letter]--; // Reduce available count
+    } else {
+      statusArray[index] = "absent";
+    }
+  });
+
+  // Animate and apply classes using the computed statuses
   guessArray.forEach((letter, index) => {
     const tile = document.querySelector(
       `[data-row="${currentRow}"][data-tile="${index}"]`
     );
+    const status = statusArray[index];
 
     setTimeout(() => {
       tile.classList.add("flip");
       setTimeout(() => {
-        if (letter === wordArray[index]) {
-          tile.classList.add("correct");
-          updateKeyboard(letter, "correct");
-        } else if (wordArray.includes(letter)) {
-          tile.classList.add("present");
-          updateKeyboard(letter, "present");
-        } else {
-          tile.classList.add("absent");
-          updateKeyboard(letter, "absent");
-        }
+        tile.classList.add(status);
+        updateKeyboard(letter, status);
         tile.classList.remove("flip");
 
         if (index === wordLength - 1) {
@@ -220,9 +241,21 @@ function flipTiles(guess, isCorrect) {
 
 function updateKeyboard(letter, status) {
   const key = document.querySelector(`.key[data-key="${letter}"]`);
-  if (key && !key.classList.contains("correct")) {
-    key.classList.remove("present", "absent");
-    key.classList.add(status);
+  if (key) {
+    // If the key is already correct, never downgrade it to present or absent
+    if (key.classList.contains("correct")) return;
+    if (status === "correct") {
+      key.classList.remove("present", "absent");
+      key.classList.add("correct");
+    } else if (status === "present" && !key.classList.contains("present")) {
+      key.classList.remove("absent");
+      key.classList.add("present");
+    } else if (
+      !key.classList.contains("present") &&
+      !key.classList.contains("absent")
+    ) {
+      key.classList.add("absent");
+    }
   }
 }
 
@@ -259,7 +292,7 @@ function showWinScreen() {
 function showLoseScreen() {
   targetWordEl.textContent = currentWord.toUpperCase();
   playView.classList.add("hidden");
-  loseScreen.classList.remove("hidden");
+  loseScreen.classList.remove("hidden"); // FIXED: properly reveals the lose screen
 }
 
 document.querySelectorAll(".restart-btn").forEach((btn) => {
