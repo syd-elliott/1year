@@ -2,11 +2,10 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  touch-action: manipulation;
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
   text-align: center;
   background-color: #121213;
   color: white;
@@ -15,25 +14,25 @@ body {
   align-items: center;
   min-height: 100vh;
   padding: 0;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 #game-container {
   width: 100%;
   max-width: 500px;
   height: 100vh;
-  max-height: 100vh;
-  padding: 5px 2px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  padding: 10px 8px;
   background-color: #121213;
 }
 
 h1 {
-  margin: 2px 0;
-  font-size: 1.4rem;
+  margin: 4px 0;
+  font-size: 1.3rem;
+  letter-spacing: 1px;
 }
 
 #play-view {
@@ -42,22 +41,22 @@ h1 {
   flex-direction: column;
   align-items: center;
   flex-grow: 1;
-  justify-content: center;
+  justify-content: space-evenly;
 }
 
-/* --- BOARD SIZING & TIGHT SPACING --- */
+/* --- BOARD SIZING --- */
 #board {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  width: min(340px, 94vw);
-  margin: 0 auto 4px auto;
+  gap: 5px;
+  width: min(320px, 92vw);
+  margin: 0 auto;
 }
 
 .board-row {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 4px;
+  gap: 5px;
   width: 100%;
 }
 
@@ -65,7 +64,7 @@ h1 {
   width: 100%;
   aspect-ratio: 1;
   border: 2px solid #3a3a3c;
-  font-size: 2.4rem;
+  font-size: 2.2rem;
   font-weight: bold;
   text-transform: uppercase;
   display: flex;
@@ -101,39 +100,41 @@ h1 {
 
 /* --- MESSAGE CONTAINER --- */
 #message-container {
-  height: 20px;
+  height: 22px;
   font-weight: bold;
   color: #f8f9fa;
-  margin: 2px 0;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* --- WORDLE-STYLE FULL WIDTH KEYBOARD --- */
+/* --- OFFICIAL WORDLE KEYBOARD STYLING --- */
 #keyboard {
   display: flex;
   flex-direction: column;
   gap: 6px;
   width: 100%;
-  max-width: 480px;
-  padding: 0 4px 10px 4px;
+  max-width: 500px;
+  padding-bottom: 12px;
   margin: 0 auto;
 }
 
 .keyboard-row {
   display: flex;
   justify-content: center;
-  gap: 4px;
+  gap: 5px;
   width: 100%;
 }
 
 .key {
   flex: 1;
-  height: 52px;
+  height: 56px;
+  background-color: #d3d6da; /* Wordle light-gray key color */
+  color: #1a1a1b; /* Dark text color like official Wordle */
   border: none;
-  background-color: #818384;
   cursor: pointer;
   text-transform: uppercase;
-  color: white;
   font-size: 13px;
   font-weight: bold;
   border-radius: 4px;
@@ -142,15 +143,33 @@ h1 {
   justify-content: center;
   user-select: none;
   padding: 0;
+  transition: background-color 0.1s ease;
 }
 
 .key.wide-key {
   flex: 1.5;
-  font-size: 11px;
+  font-size: 10px;
+  font-weight: 800;
 }
 
-.key:hover {
-  background-color: #565758;
+.key:active {
+  background-color: #818384;
+}
+
+/* Used letter states on keyboard */
+.key.correct {
+  background-color: #6aaa64 !important;
+  color: white !important;
+}
+
+.key.present {
+  background-color: #c9b458 !important;
+  color: white !important;
+}
+
+.key.absent {
+  background-color: #787c7e !important;
+  color: white !important;
 }
 
 /* --- END SCREENS --- */

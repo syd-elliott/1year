@@ -32,20 +32,6 @@ const keyboardRows = [
   ["enter", "z", "x", "c", "v", "b", "n", "m", "backspace"],
 ];
 
-// BULLETPROOF DOUBLE-TAP ZOOM PREVENTER FOR MOBILE
-let lastTouchEnd = 0;
-document.addEventListener(
-  "touchend",
-  (e) => {
-    const now = Date.now();
-    if (now - lastTouchEnd <= 300) {
-      e.preventDefault(); // Blocks rapid double-tap zoom
-    }
-    lastTouchEnd = now;
-  },
-  { passive: false }
-);
-
 function initGame() {
   currentRow = 0;
   currentTile = 0;
@@ -89,6 +75,7 @@ function buildKeyboard() {
 
     rowKeys.forEach((key) => {
       const keyElement = document.createElement("button");
+      // Use backspace symbol for the delete key like official Wordle
       keyElement.textContent = key === "backspace" ? "⌫" : key;
       keyElement.classList.add("key");
       keyElement.setAttribute("data-key", key);
