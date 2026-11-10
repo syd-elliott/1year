@@ -84,7 +84,12 @@ function buildKeyboard() {
         keyElement.classList.add("wide-key");
       }
 
-      keyElement.addEventListener("click", () => handleKeyPress(key));
+      // CHANGED: Use "pointerdown" instead of "click" for instant typing response without delay
+      keyElement.addEventListener("pointerdown", (e) => {
+        e.preventDefault(); // Prevents unwanted ghost clicks or focus shifts
+        handleKeyPress(key);
+      });
+
       rowElement.appendChild(keyElement);
     });
 
