@@ -73,7 +73,6 @@ function buildKeyboard() {
     const rowElement = document.createElement("div");
     rowElement.classList.add("keyboard-row");
 
-    // Add half-key spacer at start of Row 2 (A-L) to match Wordle spacing
     if (rowIndex === 1) {
       const spacerLeft = document.createElement("div");
       spacerLeft.classList.add("key-spacer");
@@ -98,7 +97,6 @@ function buildKeyboard() {
       rowElement.appendChild(keyElement);
     });
 
-    // Add half-key spacer at end of Row 2 (A-L)
     if (rowIndex === 1) {
       const spacerRight = document.createElement("div");
       spacerRight.classList.add("key-spacer");
@@ -109,7 +107,6 @@ function buildKeyboard() {
   });
 }
 
-// Physical keyboard listener for laptops
 document.addEventListener("keydown", (e) => {
   if (isGameOver) return;
 
@@ -179,35 +176,31 @@ function checkWord() {
 function flipTiles(guess, isCorrect) {
   const guessArray = guess.split("");
   const wordArray = currentWord.split("");
-  const statusArray = new Array(wordLength).fill(""); // FIXED: properly initialized array
+  const statusArray = new Array(wordLength).fill("");
 
-  // Track frequency of letters in the target word
   const letterCount = {};
   wordArray.forEach((letter) => {
     letterCount[letter] = (letterCount[letter] || 0) + 1;
   });
 
-  // PASS 1: Check for Greens (Exact matches)
   guessArray.forEach((letter, index) => {
     if (letter === wordArray[index]) {
       statusArray[index] = "correct";
-      letterCount[letter]--; // Reduce available count
+      letterCount[letter]--;
     }
   });
 
-  // PASS 2: Check for Yellows (Present) and Grays (Absent)
   guessArray.forEach((letter, index) => {
-    if (statusArray[index] === "correct") return; // Skip already green tiles
+    if (statusArray[index] === "correct") return;
 
     if (wordArray.includes(letter) && letterCount[letter] > 0) {
       statusArray[index] = "present";
-      letterCount[letter]--; // Reduce available count
+      letterCount[letter]--;
     } else {
       statusArray[index] = "absent";
     }
   });
 
-  // Animate and apply classes using the computed statuses
   guessArray.forEach((letter, index) => {
     const tile = document.querySelector(
       `[data-row="${currentRow}"][data-tile="${index}"]`
@@ -224,7 +217,8 @@ function flipTiles(guess, isCorrect) {
         if (index === wordLength - 1) {
           if (isCorrect) {
             isGameOver = true;
-            setTimeout(showWinScreen, 800);
+            triggerHeartFlood(); // FLOOD SCREEN WITH HEARTS ON WIN!
+            setTimeout(showWinScreen, 1200);
           } else {
             currentRow++;
             currentTile = 0;
@@ -239,10 +233,31 @@ function flipTiles(guess, isCorrect) {
   });
 }
 
+function triggerHeartFlood() {
+  const container = document.getElementById("heart-container");
+  container.innerHTML = "";
+  const heartSymbols = ["💚", "💜", "💖", "✨"]; // Updated to green and purple hearts!
+
+  for (let i = 0; i < 45; i++) {
+    const heart = document.createElement("div");
+    heart.classList.add("falling-heart");
+    heart.textContent =
+      heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = Math.random() * 1.5 + 1 + "s";
+    heart.style.animationDelay = Math.random() * 0.5 + "s";
+    container.appendChild(heart);
+  }
+
+  // Clean up hearts after animation finishes
+  setTimeout(() => {
+    container.innerHTML = "";
+  }, 3000);
+}
+
 function updateKeyboard(letter, status) {
   const key = document.querySelector(`.key[data-key="${letter}"]`);
   if (key) {
-    // If the key is already correct, never downgrade it to present or absent
     if (key.classList.contains("correct")) return;
     if (status === "correct") {
       key.classList.remove("present", "absent");
@@ -292,7 +307,7 @@ function showWinScreen() {
 function showLoseScreen() {
   targetWordEl.textContent = currentWord.toUpperCase();
   playView.classList.add("hidden");
-  loseScreen.classList.remove("hidden"); // FIXED: properly reveals the lose screen
+  loseScreen.classList.remove("hidden");
 }
 
 document.querySelectorAll(".restart-btn").forEach((btn) => {

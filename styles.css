@@ -29,15 +29,16 @@ body {
   align-items: center;
   padding: 12px 8px 16px 8px;
   background-color: #121213;
+  position: relative;
+  z-index: 2;
 }
 
-/* Move Title down with top margin */
 h1 {
   margin-top: 10px;
   margin-bottom: 6px;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   font-weight: 700;
-  letter-spacing: 1.5px;
+  letter-spacing: 1px;
 }
 
 #play-view {
@@ -46,16 +47,18 @@ h1 {
   flex-direction: column;
   align-items: center;
   flex-grow: 1;
-  justify-content: center; /* Pushes content down comfortably towards the keyboard */
+  justify-content: center;
   gap: 12px;
 }
 
-/* --- BOARD SIZING --- */
+/* --- BOARD SIZING (MATCHES KEYBOARD WIDTH) --- */
 #board {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  width: min(330px, 92vw);
+  width: 100%;
+  max-width: 500px; /* Matches keyboard max-width */
+  padding: 0 4px;
   margin: 0 auto;
 }
 
@@ -116,7 +119,7 @@ h1 {
   justify-content: center;
 }
 
-/* --- EXACT WORDLE KEYBOARD STYLING --- */
+/* --- KEYBOARD STYLING --- */
 #keyboard {
   display: flex;
   flex-direction: column;
@@ -134,14 +137,13 @@ h1 {
   width: 100%;
 }
 
-/* Half-key spacers for Row 2 (A-L) to match Wordle padding */
 .key-spacer {
   flex: 0.5;
 }
 
 .key {
   flex: 1;
-  height: 58px; /* Taller, uniform rectangle keys */
+  height: 58px;
   background-color: #d3d6da;
   color: #1a1a1b;
   border: none;
@@ -160,7 +162,7 @@ h1 {
 }
 
 .key.wide-key {
-  flex: 1.5; /* Enter and Backspace remain wider */
+  flex: 1.5;
   font-size: 11px;
   font-weight: 800;
 }
@@ -169,7 +171,6 @@ h1 {
   background-color: #a6a8ab;
 }
 
-/* Color feedback on keys */
 .key.correct {
   background-color: #6aaa64 !important;
   color: white !important;
@@ -183,6 +184,36 @@ h1 {
 .key.absent {
   background-color: #787c7e !important;
   color: white !important;
+}
+
+/* --- HEART FLOOD ANIMATION OVERLAY --- */
+#heart-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 999;
+}
+
+.falling-heart {
+  position: absolute;
+  top: -50px;
+  font-size: 24px;
+  animation: fall linear forwards;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(105vh) rotate(360deg);
+    opacity: 0.2;
+  }
 }
 
 /* --- END SCREENS --- */
