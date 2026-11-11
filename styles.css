@@ -229,9 +229,19 @@ h1 {
   align-items: center;
   gap: 15px;
   width: 100%;
-  padding: 15px 10px 30px 10px;
+  padding: 15px 2px 30px 2px; /* Reduced side padding so it spans the full screen width */
   margin: auto 0;
   overflow-y: visible;
+}
+
+.anniversary-subtitle {
+  color: #d3d6da;
+  font-size: 0.95rem; /* Slightly streamlined font size to keep it safely on one line */
+  font-weight: 500;
+  white-space: nowrap; /* Forces the entire sentence and hearts to stay on a single line */
+  margin-top: -6px;
+  margin-bottom: 5px;
+  padding: 0 5px;
 }
 
 .hidden {
