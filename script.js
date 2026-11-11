@@ -12,7 +12,7 @@ const wordData = {
     "images/euro9.jpeg",
     "images/euro10.jpeg",
   ],
-  gugels: [
+  races: [
     "images/run1.jpeg",
     "images/run2.jpeg",
     "images/run3.jpeg",
@@ -21,6 +21,16 @@ const wordData = {
     "images/run6.jpeg",
     "images/run7.jpeg",
     "images/run8.jpeg",
+  ],
+  cabin: [
+    "images/snowy1.jpeg",
+    "images/snowy2.jpeg",
+    "images/snowy3.jpeg",
+    "images/snowy4.jpeg",
+    "images/snowy5.jpeg",
+    "images/snowy6.jpeg",
+    "images/snowy7.jpeg",
+    "images/snowy8.jpeg",
   ],
   arches: [
     "images/arches-arch.jpeg",
@@ -42,16 +52,6 @@ const wordData = {
     "images/dogs-newyear.jpeg",
     "images/dogs-syd.jpeg",
     "images/dogs-carter.jpeg",
-  ],
-  snowy: [
-    "images/snowy1.jpeg",
-    "images/snowy2.jpeg",
-    "images/snowy3.jpeg",
-    "images/snowy4.jpeg",
-    "images/snowy5.jpeg",
-    "images/snowy6.jpeg",
-    "images/snowy7.jpeg",
-    "images/snowy8.jpeg",
   ],
   marmot: [
     "images/glacier1.jpeg",
@@ -81,26 +81,9 @@ const wordData = {
 
 const words = Object.keys(wordData);
 
-// Check if a sequence order has already been generated and saved
-let playSequence = JSON.parse(localStorage.getItem("wordle_sequence"));
-let sequenceIndex = parseInt(
-  localStorage.getItem("wordle_sequence_index") || "0",
-  10
-);
-
-// If it's the first time playing (or sequence is finished), generate a random starting order with no repeats
-if (!playSequence || sequenceIndex >= playSequence.length) {
-  playSequence = Array.from({ length: words.length }, (_, i) => i);
-  for (let i = playSequence.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [playSequence[i], playSequence[j]] = [playSequence[j], playSequence[i]];
-  }
-  sequenceIndex = 0;
-  localStorage.setItem("wordle_sequence", JSON.stringify(playSequence));
-  localStorage.setItem("wordle_sequence_index", sequenceIndex);
-}
-
-let currentWord = words[playSequence[sequenceIndex]];
+// Load the exact word index in sequence (starts at 0)
+let wordIndex = parseInt(localStorage.getItem("wordle_word_index") || "0", 10);
+let currentWord = words[wordIndex % words.length];
 let wordLength = currentWord.length;
 
 const gameTitle = document.getElementById("game-title");
@@ -128,22 +111,11 @@ function initGame() {
   currentTile = 0;
   isGameOver = false;
 
-  // Advance through the randomized sequence without repeating
-  sequenceIndex++;
+  // Move to the next word in exact order
+  wordIndex = (wordIndex + 1) % words.length;
+  localStorage.setItem("wordle_word_index", wordIndex);
 
-  if (sequenceIndex >= words.length) {
-    playSequence = Array.from({ length: words.length }, (_, i) => i);
-    for (let i = playSequence.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [playSequence[i], playSequence[j]] = [playSequence[j], playSequence[i]];
-    }
-    sequenceIndex = 0;
-    localStorage.setItem("wordle_sequence", JSON.stringify(playSequence));
-  }
-
-  localStorage.setItem("wordle_sequence_index", sequenceIndex);
-
-  currentWord = words[playSequence[sequenceIndex]];
+  currentWord = words[wordIndex];
   wordLength = currentWord.length;
 
   gameTitle.classList.remove("hide-title");
@@ -335,8 +307,8 @@ function flipTiles(guess, isCorrect) {
             }
           }
         }
-      }, 200);
-    }, index * 320);
+      }, 180);
+    }, index * 300);
   });
 }
 
@@ -397,15 +369,10 @@ function showWinScreen() {
   const photoGallery = document.getElementById("photo-gallery");
   photoGallery.innerHTML = "";
 
-  let photos = [...(wordData[currentWord] || [])];
+  // Display photos in their exact un-randomized order from wordData
+  const photos = wordData[currentWord] || [];
 
   if (photos.length > 0) {
-    // Shuffle photos randomly for the scattered display
-    for (let i = photos.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [photos[i], photos[j]] = [photos[j], photos[i]];
-    }
-
     photos.forEach((photoSrc) => {
       const img = document.createElement("img");
       img.src = photoSrc;
