@@ -27,13 +27,13 @@ body {
   height: 100dvh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Pins header top, keyboard bottom */
+  justify-content: space-between;
   align-items: center;
   padding: 8px 8px calc(12px + env(safe-area-inset-bottom, 0px)) 8px;
   background-color: #121213;
   position: relative;
   z-index: 2;
-  overflow: hidden; /* Prevents any inner container scrolling */
+  overflow-y: auto; /* Allows scrolling when the win screen / photo gallery opens */
   box-sizing: border-box;
 }
 
@@ -239,7 +239,7 @@ h1 {
   align-items: center;
   gap: 15px;
   width: 100%;
-  padding: 15px 2px 30px 2px; /* Reduced side padding so it spans the full screen width */
+  padding: 15px 2px 40px 2px; /* Generous bottom padding so the button is easy to click */
   margin: auto 0;
   overflow-y: visible;
 }
