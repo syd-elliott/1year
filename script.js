@@ -419,8 +419,20 @@ function showWinScreen() {
       img.src = photoSrc;
       img.alt = `Memory ${index + 1} from ${currentWord}`;
 
+      const captions = {
+        sortie: ["une petite aventure", "cute of us", "Paris days"],
+        races: ["race days", "our kind of crazy"],
+        cabin: ["weekend away", "just because"],
+        arches: ["out west", "favorite view"],
+        roscoe: ["our favorite guy", "no notes"],
+        marmot: ["mountain memories", "cute of us"],
+        legos: ["building memories", "one for the books"],
+      };
+
+      const wordCaptions = captions[currentWord] || [];
+
       const caption = document.createElement("figcaption");
-      caption.textContent = "♥";
+      caption.textContent = wordCaptions[index] || "♥︎";
 
       polaroid.appendChild(img);
       polaroid.appendChild(caption);

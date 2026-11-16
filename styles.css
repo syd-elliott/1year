@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;500&display=swap");
 * {
   box-sizing: border-box;
   margin: 0;
@@ -379,9 +380,10 @@ h1 {
   margin-top: 13px;
   height: 22px;
   text-align: center;
-  color: #514e49;
-  font-family: "Brush Script MT", "Segoe Script", cursive;
-  font-size: 19px;
+  color: #77736b !important;
+  font-family: "Kalam", cursive;
+  font-size: 17px;
+  font-weight: 400;
 }
 
 /* SUBTLE ROTATION */
