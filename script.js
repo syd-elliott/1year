@@ -472,7 +472,7 @@ function showWinScreen() {
           "sharing a crate lol",
           "",
           "Halloween 2026",
-          "New Year's Eve pawty",
+          "New Year's Eve",
         ],
         marmot: [
           "Glacier 2026",
