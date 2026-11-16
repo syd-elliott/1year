@@ -73,7 +73,8 @@ h1 {
   display: flex;
   flex-direction: column;
   gap: 5px;
-  width: min(100%, 360px, calc((100dvh - 300px) / 1.2));
+  width: 100%;
+  max-width: 500px;
   padding: 0 4px;
   margin: 0 auto;
   align-self: center;
@@ -316,11 +317,6 @@ h1 {
 
 /* Compact layout for shorter phone screens */
 @media (max-height: 650px) {
-  #board {
-    width: min(100%, 300px, calc((100dvh - 260px) / 1.2));
-    gap: 4px;
-  }
-
   .board-row {
     gap: 4px;
   }
