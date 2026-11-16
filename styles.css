@@ -33,7 +33,7 @@ body {
   background-color: #121213;
   position: relative;
   z-index: 2;
-  overflow-y: auto; /* Allows scrolling when the win screen / photo gallery opens */
+  overflow: hidden; /* Locks the main game screen permanently */
   box-sizing: border-box;
 }
 
@@ -239,9 +239,10 @@ h1 {
   align-items: center;
   gap: 15px;
   width: 100%;
-  padding: 15px 2px 40px 2px; /* Generous bottom padding so the button is easy to click */
-  margin: auto 0;
-  overflow-y: visible;
+  height: 100%; /* Takes full height of the locked container */
+  padding: 15px 2px 40px 2px;
+  overflow-y: auto; /* Scrolls smoothly through all photos inside the win screen */
+  -webkit-overflow-scrolling: touch; /* Smooth momentum scrolling on iOS */
 }
 
 .anniversary-subtitle {
