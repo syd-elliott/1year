@@ -461,10 +461,10 @@ function showWinScreen() {
           "over the canyon",
           "double arch",
           "",
-          "",
+          "i love you",
         ],
         roscoe: [
-          "Roscoe's 8th birthday!!",
+          "Roscoe's 8th birthday!",
           "deer spotting",
           "",
           "",
@@ -476,7 +476,7 @@ function showWinScreen() {
         ],
         marmot: [
           "Glacier 2026",
-          "Iceberg Lake",
+          "Iceberg Lake\npre polar plunge brrr",
           "",
           "marmot harem attack",
           "favorite views",
