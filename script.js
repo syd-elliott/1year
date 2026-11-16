@@ -411,11 +411,20 @@ function showWinScreen() {
   const photos = wordData[currentWord] || [];
 
   if (photos.length > 0) {
-    photos.forEach((photoSrc) => {
+    photos.forEach((photoSrc, index) => {
+      const polaroid = document.createElement("figure");
+      polaroid.classList.add("polaroid");
+
       const img = document.createElement("img");
       img.src = photoSrc;
-      img.alt = `Memory for ${currentWord}`;
-      photoGallery.appendChild(img);
+      img.alt = `Memory ${index + 1} from ${currentWord}`;
+
+      const caption = document.createElement("figcaption");
+      caption.textContent = "♥";
+
+      polaroid.appendChild(img);
+      polaroid.appendChild(caption);
+      photoGallery.appendChild(polaroid);
     });
   } else {
     photoGallery.innerHTML = `<p class="photo-placeholder">Great job guessing ${currentWord.toUpperCase()}!</p>`;

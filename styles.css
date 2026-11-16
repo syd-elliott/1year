@@ -38,18 +38,30 @@ body {
 
 h1 {
   flex-shrink: 0;
-  margin-top: 8px;
-  margin-bottom: 6px;
-  font-size: 1.15rem;
-  font-weight: 600;
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
-  color: #f8f9fa;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-  padding-bottom: 6px;
-  display: inline-block;
+  margin-top: 12px;
+  margin-bottom: 10px;
   width: 90%;
-  max-width: 320px;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  padding-bottom: 12px;
+  color: #f8f9fa;
+}
+
+.title-main {
+  font-size: 1.65rem;
+  font-weight: 800;
+  letter-spacing: 7px;
+}
+
+.title-edition {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  color: #a8b5a5;
 }
 
 .hide-title {
@@ -265,14 +277,163 @@ h1 {
   display: none !important;
 }
 
+/* --- ANNIVERSARY WIN SCREEN --- */
+
+.win-kicker {
+  color: #a8b5a5;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  margin-bottom: -8px;
+}
+
+.win-heading {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #f8f9fa;
+}
+
+.win-subheading {
+  font-size: 1rem;
+  color: #d3d6da;
+  margin-top: -5px;
+}
+
+.win-divider {
+  width: 65%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #a8b5a5;
+  font-size: 0.85rem;
+}
+
+.win-divider::before,
+.win-divider::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.win-footer {
+  color: #a8b5a5;
+  font-size: 0.85rem;
+  font-style: italic;
+  line-height: 1.5;
+  max-width: 290px;
+  margin: 5px auto;
+}
+
+/* --- POLAROID PHOTO GALLERY --- */
+
+/* POLAROID PHOTO GALLERY */
+
+/* POLAROID GALLERY */
 #photo-gallery {
   width: 100%;
-  max-width: 420px;
-  margin: 10px 0;
+  max-width: 390px;
+  margin: 20px auto;
+  padding: 0 12px;
+  box-sizing: border-box;
+
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px 14px;
+  justify-items: center;
+  align-items: center;
+}
+
+/* POLAROID FRAME */
+.polaroid {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 175px;
+  margin: 0;
+  padding: 9px 9px 38px;
+
+  background: #fffefa;
+  border: 1px solid #e8e5dd;
+  border-radius: 0;
+
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.25);
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.polaroid img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 0;
+  margin: 0 auto;
+}
+
+/* HANDWRITTEN CAPTION */
+.polaroid figcaption {
+  margin-top: 9px;
+  height: 20px;
+
+  text-align: center;
+  color: #514e49;
+
+  font-family: "Brush Script MT", "Segoe Script", cursive;
+  font-size: 17px;
+}
+
+/* NATURAL SCATTERED LOOK */
+.polaroid:nth-child(odd) {
+  transform: rotate(-2.5deg);
+}
+
+.polaroid:nth-child(even) {
+  transform: rotate(2deg);
+}
+
+/* CENTER LAST PHOTO */
+.polaroid:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+  width: 48%;
+}
+
+/* HOVER */
+.polaroid:hover {
+  transform: rotate(0deg) translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  z-index: 2;
+}
+
+/* WIN SCREEN FOOTER */
+.win-footer {
+  color: #a8b5a5;
+  font-size: 0.85rem;
+  font-style: italic;
+  line-height: 1.5;
+  max-width: 290px;
+  margin: 5px auto;
+}
+
+.end-screen .btn {
+  min-width: 180px;
+  border-radius: 25px;
+  letter-spacing: 0.5px;
+  padding: 13px 28px;
+  margin-top: 5px;
+}
+
+/* --- BUTTON --- */
+
+.end-screen .btn {
+  min-width: 180px;
+  border-radius: 25px;
+  letter-spacing: 0.5px;
+  padding: 13px 28px;
+  margin-top: 5px;
 }
 
 .photo-placeholder {
@@ -289,14 +450,6 @@ h1 {
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
   border: 3px solid #3a3a3c;
   transition: transform 0.3s ease;
-}
-
-#photo-gallery img:nth-child(odd) {
-  transform: rotate(-3deg);
-}
-
-#photo-gallery img:nth-child(even) {
-  transform: rotate(3deg);
 }
 
 #photo-gallery img:hover {
@@ -335,4 +488,10 @@ h1 {
 
 .btn:hover {
   background-color: #538d4e;
+}
+
+#photo-gallery .polaroid img {
+  border-radius: 0 !important;
+  clip-path: none;
+  overflow: hidden;
 }

@@ -14,7 +14,10 @@
     <div id="heart-container"></div>
 
     <div id="game-container">
-      <h1 id="game-title">Wordle : 🛒 & 🦑 Edition</h1>
+        <h1 id="game-title">
+            <span class="title-main">WORDLE</span>
+            <span class="title-edition">🛒 & 🦑 EDITION</span>
+        </h1>
 
       <!-- Main Play View -->
       <div id="play-view" class="view-section">
@@ -24,18 +27,33 @@
       </div>
 
       <!-- Win Screen -->
-      <div id="win-screen" class="end-screen view-section hidden">
-        <h2>🎉 Happy One Year! 🎉</h2>
-        <p class="anniversary-subtitle">
-          💚 My favorite memories with my favorite person 💜
+      
+    <div id="win-screen" class="end-screen view-section hidden">
+
+        <p class="win-kicker">✦ ONE YEAR ✦</p>
+    
+        <h2 class="win-heading">Happy One Year! 💚</h2>
+    
+        <p class="win-subheading">
+        The best moments from the best year 💜
         </p>
-
-        <div id="photo-gallery">
-          <p class="photo-placeholder">Your custom photos will appear here!</p>
+    
+        <div class="win-divider">
+        <span>♥</span>
         </div>
-
-        <button class="btn restart-btn">Play Again</button>
-      </div>
+    
+        <div id="photo-gallery">
+        <p class="photo-placeholder">Your custom photos will appear here!</p>
+        </div>
+    
+        <p class="win-footer">
+        Here's to many more memories (and Wordles) together.
+        </p>
+    
+        <button class="btn restart-btn">Play Again ↻</button>
+    
+    </div>
+  
 
       <!-- Lose Screen -->
       <div id="lose-screen" class="end-screen hidden">
