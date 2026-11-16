@@ -4,6 +4,7 @@
   padding: 0;
 }
 
+/* --- PAGE LAYOUT --- */
 body {
   font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
   text-align: center;
@@ -13,6 +14,7 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  min-height: 100dvh;
   padding: 0;
   overflow: hidden;
   overscroll-behavior: none;
@@ -25,16 +27,17 @@ body {
   height: 100dvh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
-  padding: 8px 8px calc(16px + env(safe-area-inset-bottom, 0px)) 8px;
+  padding: 8px 8px calc(12px + env(safe-area-inset-bottom, 0px));
   background-color: #121213;
   position: relative;
   z-index: 2;
-  overflow-y: auto; /* Allows scrolling when content exceeds screen height */
+  overflow-y: auto;
 }
 
 h1 {
+  flex-shrink: 0;
   margin-top: 8px;
   margin-bottom: 6px;
   font-size: 1.15rem;
@@ -49,36 +52,38 @@ h1 {
   max-width: 320px;
 }
 
-/* Utility class to hide elements */
 .hide-title {
   display: none !important;
 }
 
+/* --- PLAY VIEW --- */
 #play-view {
   width: 100%;
-  display: flex;
-  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto auto;
   align-items: center;
-  flex-grow: 1;
-  justify-content: center;
-  gap: 10px;
+  justify-items: center;
+  gap: 8px;
 }
 
 /* --- BOARD SIZING --- */
 #board {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  width: 100%;
-  max-width: 500px;
+  gap: 5px;
+  width: min(100%, 360px, calc((100dvh - 300px) / 1.2));
   padding: 0 4px;
   margin: 0 auto;
+  align-self: center;
+  justify-self: center;
 }
 
 .board-row {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 6px;
+  gap: 5px;
   width: 100%;
 }
 
@@ -124,6 +129,7 @@ h1 {
 /* --- MESSAGE CONTAINER --- */
 #message-container {
   height: 22px;
+  width: 100%;
   font-weight: bold;
   color: #f8f9fa;
   font-size: 0.9rem;
@@ -136,17 +142,18 @@ h1 {
 #keyboard {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 7px;
   width: 100%;
   max-width: 500px;
-  margin-top: auto;
-  padding: 0 4px;
+  margin: 0;
+  padding: 0 2px;
+  align-self: end;
 }
 
 .keyboard-row {
   display: flex;
   justify-content: center;
-  gap: 6px;
+  gap: 5px;
   width: 100%;
 }
 
@@ -156,13 +163,14 @@ h1 {
 
 .key {
   flex: 1;
-  height: 54px;
+  min-width: 0;
+  height: clamp(42px, 7.5vh, 60px);
   background-color: #d3d6da;
   color: #1a1a1b;
   border: none;
   cursor: pointer;
   text-transform: uppercase;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: bold;
   border-radius: 4px;
   display: flex;
@@ -176,7 +184,7 @@ h1 {
 
 .key.wide-key {
   flex: 1.5;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 800;
 }
 
@@ -236,16 +244,16 @@ h1 {
   align-items: center;
   gap: 15px;
   width: 100%;
-  padding: 15px 2px 30px 2px; /* Reduced side padding so it spans the full screen width */
+  padding: 15px 2px 30px 2px;
   margin: auto 0;
   overflow-y: visible;
 }
 
 .anniversary-subtitle {
   color: #d3d6da;
-  font-size: 0.95rem; /* Slightly streamlined font size to keep it safely on one line */
+  font-size: 0.95rem;
   font-weight: 500;
-  white-space: nowrap; /* Forces the entire sentence and hearts to stay on a single line */
+  white-space: nowrap;
   margin-top: -6px;
   margin-bottom: 5px;
   padding: 0 5px;
@@ -262,7 +270,7 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px; /* Space between scattered photos */
+  gap: 20px;
 }
 
 .photo-placeholder {
@@ -281,7 +289,6 @@ h1 {
   transition: transform 0.3s ease;
 }
 
-/* Rotate photos slightly in alternating directions for a scattered look */
 #photo-gallery img:nth-child(odd) {
   transform: rotate(-3deg);
 }
@@ -305,6 +312,28 @@ h1 {
   cursor: pointer;
   transition: background-color 0.2s;
   margin-top: 10px;
+}
+
+/* Compact layout for shorter phone screens */
+@media (max-height: 650px) {
+  #board {
+    width: min(100%, 300px, calc((100dvh - 260px) / 1.2));
+    gap: 4px;
+  }
+
+  .board-row {
+    gap: 4px;
+  }
+
+  .key {
+    height: 42px;
+    font-size: 13px;
+  }
+
+  #keyboard,
+  #play-view {
+    gap: 5px;
+  }
 }
 
 .btn:hover {

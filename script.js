@@ -202,6 +202,9 @@ function buildKeyboard() {
   });
 }
 
+// Always return to the top when starting a new game
+document.getElementById("game-container").scrollTop = 0;
+
 document.addEventListener("keydown", (e) => {
   if (isGameOver) return;
 
