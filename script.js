@@ -150,6 +150,7 @@ function buildBoard() {
     const row = document.createElement("div");
     row.classList.add("board-row");
     row.style.gridTemplateColumns = `repeat(${wordLength}, 1fr)`;
+    board.style.maxWidth = wordLength === 5 ? "360px" : "500px";
 
     for (let j = 0; j < wordLength; j++) {
       const tile = document.createElement("div");
