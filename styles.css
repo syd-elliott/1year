@@ -63,6 +63,7 @@ h1 {
   min-height: 0;
   display: grid;
   grid-template-rows: minmax(0, 1fr) auto auto;
+  padding-top: 12px;
   align-items: center;
   justify-items: center;
   gap: 8px;
