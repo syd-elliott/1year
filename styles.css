@@ -330,82 +330,67 @@ h1 {
 /* POLAROID PHOTO GALLERY */
 
 /* POLAROID GALLERY */
+/* POLAROID GALLERY */
 #photo-gallery {
   width: 100%;
-  max-width: 390px;
-  margin: 20px auto;
-  padding: 0 12px;
+  max-width: 340px;
+  margin: 25px auto;
+  padding: 0 15px;
   box-sizing: border-box;
 
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 24px 14px;
-  justify-items: center;
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  gap: 32px;
 }
 
 /* POLAROID FRAME */
 .polaroid {
   box-sizing: border-box;
-  width: 100%;
-  max-width: 175px;
+  width: 85%;
+  max-width: 285px;
   margin: 0;
-  padding: 9px 9px 38px;
+  padding: 12px 12px 55px;
 
   background: #fffefa;
-  border: 1px solid #e8e5dd;
+  border: 1px solid #e5e1d8;
   border-radius: 0;
 
-  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.25);
+  box-shadow: 2px 5px 12px rgba(0, 0, 0, 0.25);
 
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.polaroid img {
+/* PHOTO */
+#photo-gallery .polaroid img {
   display: block;
   width: 100%;
   aspect-ratio: 1 / 1;
   object-fit: cover;
-  border-radius: 0;
-  margin: 0 auto;
+  border-radius: 0 !important;
+  clip-path: none;
+  margin: 0;
 }
 
-/* HANDWRITTEN CAPTION */
+/* CAPTION */
 .polaroid figcaption {
-  margin-top: 9px;
-  height: 20px;
-
+  margin-top: 13px;
+  height: 22px;
   text-align: center;
   color: #514e49;
-
   font-family: "Brush Script MT", "Segoe Script", cursive;
-  font-size: 17px;
+  font-size: 19px;
 }
 
-/* NATURAL SCATTERED LOOK */
+/* SUBTLE ROTATION */
 .polaroid:nth-child(odd) {
-  transform: rotate(-2.5deg);
+  transform: rotate(-2deg);
 }
 
 .polaroid:nth-child(even) {
   transform: rotate(2deg);
-}
-
-/* CENTER LAST PHOTO */
-.polaroid:last-child:nth-child(odd) {
-  grid-column: 1 / -1;
-  width: 48%;
-}
-
-/* HOVER */
-.polaroid:hover {
-  transform: rotate(0deg) translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-  z-index: 2;
 }
 
 /* WIN SCREEN FOOTER */
@@ -415,7 +400,7 @@ h1 {
   font-style: italic;
   line-height: 1.5;
   max-width: 290px;
-  margin: 5px auto;
+  margin: 10px auto;
 }
 
 .end-screen .btn {
