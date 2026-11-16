@@ -82,7 +82,7 @@ const wordData = {
 
 const words = Object.keys(wordData);
 
-// Load the exact word index in sequence (starts at 0)
+// Load the exact word index in sequence (defaults to 0)
 let wordIndex = parseInt(localStorage.getItem("wordle_word_index") || "0", 10);
 let currentWord = words[wordIndex % words.length];
 let wordLength = currentWord.length;
@@ -100,6 +100,7 @@ const messageContainer = document.getElementById("message-container");
 let currentRow = 0;
 let currentTile = 0;
 let isGameOver = false;
+let isRetryLoss = false;
 
 const keyboardRows = [
   ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
@@ -107,17 +108,21 @@ const keyboardRows = [
   ["enter", "z", "x", "c", "v", "b", "n", "m", "backspace"],
 ];
 
-function initGame() {
+function startNewGame(advanceWord = true) {
   currentRow = 0;
-  currentTile = 0;
   isGameOver = false;
 
-  // Move to the next word in exact order
-  wordIndex = (wordIndex + 1) % words.length;
-  localStorage.setItem("wordle_word_index", wordIndex);
+  if (advanceWord) {
+    isRetryLoss = false;
+    wordIndex = (wordIndex + 1) % words.length;
+    localStorage.setItem("wordle_word_index", wordIndex);
+    currentWord = words[wordIndex];
+  } else {
+    isRetryLoss = true;
+  }
 
-  currentWord = words[wordIndex];
   wordLength = currentWord.length;
+  currentTile = isRetryLoss ? 1 : 0;
 
   gameTitle.classList.remove("hide-title");
   playView.classList.remove("hidden");
@@ -127,6 +132,16 @@ function initGame() {
 
   buildBoard();
   buildKeyboard();
+
+  if (isRetryLoss) {
+    const firstLetter = currentWord[0];
+    const firstTile = document.querySelector('[data-row="0"][data-tile="0"]');
+    if (firstTile) {
+      firstTile.textContent = firstLetter;
+      firstTile.classList.add("correct");
+    }
+    updateKeyboard(firstLetter, "correct");
+  }
 }
 
 function buildBoard() {
@@ -227,7 +242,8 @@ function addLetter(letter) {
 }
 
 function deleteLetter() {
-  if (currentTile > 0) {
+  const minAllowed = isRetryLoss && currentRow === 0 ? 1 : 0;
+  if (currentTile > minAllowed) {
     currentTile--;
     const tile = document.querySelector(
       `[data-row="${currentRow}"][data-tile="${currentTile}"]`
@@ -240,9 +256,13 @@ function deleteLetter() {
 
 function checkWord() {
   const rowTiles = document.querySelectorAll(`[data-row="${currentRow}"]`);
-  const guess = Array.from(rowTiles)
+  let guess = Array.from(rowTiles)
     .map((tile) => tile.textContent.trim())
     .join("");
+
+  if (isRetryLoss && currentRow === 0) {
+    guess = currentWord[0] + guess.slice(1);
+  }
 
   if (guess.length < wordLength) {
     showMessage(`Not enough letters! (Need ${wordLength})`);
@@ -287,6 +307,15 @@ function flipTiles(guess, isCorrect) {
     );
     const status = statusArray[index];
 
+    if (isRetryLoss && currentRow === 0 && index === 0) {
+      tile.classList.add("correct");
+      updateKeyboard(letter, "correct");
+      if (index === wordLength - 1) {
+        finishFlip(isCorrect);
+      }
+      return;
+    }
+
     setTimeout(() => {
       tile.classList.add("flip");
       setTimeout(() => {
@@ -295,28 +324,32 @@ function flipTiles(guess, isCorrect) {
         tile.classList.remove("flip");
 
         if (index === wordLength - 1) {
-          if (isCorrect) {
-            isGameOver = true;
-            triggerHeartFlood();
-            setTimeout(showWinScreen, 1200);
-          } else {
-            currentRow++;
-            currentTile = 0;
-            if (currentRow === 6) {
-              isGameOver = true;
-              setTimeout(showLoseScreen, 800);
-            }
-          }
+          finishFlip(isCorrect);
         }
       }, 180);
     }, index * 300);
   });
 }
 
+function finishFlip(isCorrect) {
+  if (isCorrect) {
+    isGameOver = true;
+    triggerHeartFlood();
+    setTimeout(showWinScreen, 1200);
+  } else {
+    currentRow++;
+    currentTile = 0;
+    if (currentRow === 6) {
+      isGameOver = true;
+      setTimeout(showLoseScreen, 800);
+    }
+  }
+}
+
 function triggerHeartFlood() {
   const container = document.getElementById("heart-container");
   container.innerHTML = "";
-  const heartSymbols = ["💚", "💜", "💖", "✨"];
+  const heartSymbols = ["💚", "💜", "💖", "✨", "🦑", "🛒"];
 
   for (let i = 0; i < 45; i++) {
     const heart = document.createElement("div");
@@ -370,7 +403,6 @@ function showWinScreen() {
   const photoGallery = document.getElementById("photo-gallery");
   photoGallery.innerHTML = "";
 
-  // Display photos in their exact un-randomized order from wordData
   const photos = wordData[currentWord] || [];
 
   if (photos.length > 0) {
@@ -387,14 +419,24 @@ function showWinScreen() {
 
 function showLoseScreen() {
   gameTitle.classList.add("hide-title");
-  targetWordEl.textContent = currentWord.toUpperCase();
   playView.classList.add("hidden");
   loseScreen.classList.remove("hidden");
 }
 
-document.querySelectorAll(".restart-btn").forEach((btn) => {
-  btn.addEventListener("click", initGame);
-});
+// Win screen button advances to the next word
+document
+  .querySelector("#win-screen .restart-btn")
+  .addEventListener("click", () => {
+    startNewGame(true);
+  });
 
+// Lose screen button retries the same word with the first letter pre-filled
+document
+  .querySelector("#lose-screen .restart-btn")
+  .addEventListener("click", () => {
+    startNewGame(false);
+  });
+
+// Initial boot up (loads current word without advancing)
 buildBoard();
 buildKeyboard();
