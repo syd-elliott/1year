@@ -385,6 +385,7 @@ h1 {
   font-family: "Kalam", cursive;
   font-size: 17px;
   font-weight: 400;
+  white-space: pre-line;
 }
 
 /* SUBTLE ROTATION */
