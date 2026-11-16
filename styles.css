@@ -12,9 +12,11 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  height: 100vh;
+  height: 100dvh;
+  margin: 0;
   padding: 0;
-  overflow: hidden;
+  overflow: hidden; /* Locks the body entirely against scrolling */
   overscroll-behavior: none;
 }
 
@@ -25,13 +27,14 @@ body {
   height: 100dvh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-between; /* Pins header top, keyboard bottom */
   align-items: center;
-  padding: 8px 8px calc(16px + env(safe-area-inset-bottom, 0px)) 8px;
+  padding: 8px 8px calc(12px + env(safe-area-inset-bottom, 0px)) 8px;
   background-color: #121213;
   position: relative;
   z-index: 2;
-  overflow-y: auto; /* Allows scrolling when content exceeds screen height */
+  overflow: hidden; /* Prevents any inner container scrolling */
+  box-sizing: border-box;
 }
 
 h1 {
