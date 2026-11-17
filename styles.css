@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;500&display=swap");
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -76,7 +77,7 @@ h1 {
   min-height: 0;
   display: grid;
   grid-template-rows: minmax(0, 1fr) auto auto;
-  padding-top: 12px;
+  padding-top: 8px;
   align-items: center;
   justify-items: center;
   gap: 8px;
@@ -84,15 +85,15 @@ h1 {
 
 /* --- BOARD SIZING --- */
 #board {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: repeat(6, 1fr);
   gap: 5px;
-  width: 100%;
-  max-width: 500px;
+  height: 100%;
+  max-height: 420px;
+  aspect-ratio: 5 / 6;
+  max-width: 100%;
   padding: 0 4px;
   margin: 0 auto;
-  align-self: center;
-  justify-self: center;
 }
 
 .board-row {
@@ -100,13 +101,14 @@ h1 {
   grid-template-columns: repeat(5, 1fr);
   gap: 5px;
   width: 100%;
+  height: 100%;
 }
 
 .tile {
   width: 100%;
-  aspect-ratio: 1;
+  height: 100%;
   border: 2px solid #3a3a3c;
-  font-size: 2rem;
+  font-size: clamp(1.4rem, 4vh, 2rem);
   font-weight: bold;
   text-transform: uppercase;
   display: flex;
@@ -252,7 +254,7 @@ h1 {
   }
 }
 
-/* --- SCROLLABLE END SCREENS & SCATTERED PHOTOS --- */
+/* --- SCROLLABLE END SCREENS & POLAROID GALLERY --- */
 .end-screen {
   display: flex;
   flex-direction: column;
@@ -277,8 +279,6 @@ h1 {
 .hidden {
   display: none !important;
 }
-
-/* --- ANNIVERSARY WIN SCREEN --- */
 
 .win-kicker {
   color: #a8b5a5;
@@ -317,78 +317,34 @@ h1 {
   background: rgba(255, 255, 255, 0.2);
 }
 
-.win-footer {
-  color: #a8b5a5;
-  font-size: 0.85rem;
-  font-style: italic;
-  line-height: 1.5;
-  max-width: 290px;
-  margin: 5px auto;
-}
-
-/* --- POLAROID PHOTO GALLERY --- */
-
-/* POLAROID PHOTO GALLERY */
-
-/* POLAROID GALLERY */
-/* POLAROID GALLERY */
-/* POLAROID GALLERY */
 #photo-gallery {
   width: 100%;
   max-width: 480px;
   margin: 25px auto;
   padding: 0 12px;
   box-sizing: border-box;
-
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 35px;
 }
 
-/* POLAROID FRAME */
 .polaroid {
   box-sizing: border-box;
   width: 94%;
   max-width: 380px;
   margin: 0;
-  padding: 14px 14px 55px;
-
+  padding: 14px 14px 36px;
   background: #fffefa;
   border: 1px solid #e5e1d8;
   border-radius: 0;
-
   box-shadow: 2px 5px 12px rgba(0, 0, 0, 0.25);
-
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: transform 0.3s ease;
 }
 
-/* PHOTO */
-#photo-gallery .polaroid img {
-  display: block;
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  border-radius: 0 !important;
-  clip-path: none;
-  margin: 0;
-}
-
-/* CAPTION */
-.polaroid figcaption {
-  margin-top: 13px;
-  height: 22px;
-  text-align: center;
-  color: #77736b !important;
-  font-family: "Kalam", cursive;
-  font-size: 17px;
-  font-weight: 400;
-  white-space: pre-line;
-}
-
-/* SUBTLE ROTATION */
 .polaroid:nth-child(odd) {
   transform: rotate(-2deg);
 }
@@ -397,7 +353,33 @@ h1 {
   transform: rotate(2deg);
 }
 
-/* WIN SCREEN FOOTER */
+.polaroid:hover {
+  transform: scale(1.03) rotate(0deg);
+}
+
+#photo-gallery .polaroid img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  clip-path: none;
+  margin: 0;
+}
+
+.polaroid figcaption {
+  margin-top: 13px;
+  min-height: 22px;
+  text-align: center;
+  color: #77736b;
+  font-family: "Kalam", cursive;
+  font-size: 17px;
+  font-weight: 400;
+  white-space: pre-line;
+}
+
 .win-footer {
   color: #a8b5a5;
   font-size: 0.85rem;
@@ -407,42 +389,10 @@ h1 {
   margin: 10px auto;
 }
 
-.end-screen .btn {
-  min-width: 180px;
-  border-radius: 25px;
-  letter-spacing: 0.5px;
-  padding: 13px 28px;
-  margin-top: 5px;
-}
-
-/* --- BUTTON --- */
-
-.end-screen .btn {
-  min-width: 180px;
-  border-radius: 25px;
-  letter-spacing: 0.5px;
-  padding: 13px 28px;
-  margin-top: 5px;
-}
-
 .photo-placeholder {
   color: #818384;
   font-style: italic;
   font-size: 0.95rem;
-}
-
-/* Scattered Photo Card Styling */
-#photo-gallery img {
-  width: 85%;
-  max-width: 280px;
-  border-radius: 8px;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
-  border: 3px solid #3a3a3c;
-  transition: transform 0.3s ease;
-}
-
-#photo-gallery img:hover {
-  transform: scale(1.03) rotate(0deg);
 }
 
 .btn {
@@ -456,6 +406,18 @@ h1 {
   cursor: pointer;
   transition: background-color 0.2s;
   margin-top: 10px;
+}
+
+.btn:hover {
+  background-color: #538d4e;
+}
+
+.end-screen .btn {
+  min-width: 180px;
+  border-radius: 25px;
+  letter-spacing: 0.5px;
+  padding: 13px 28px;
+  margin-top: 5px;
 }
 
 /* Compact layout for shorter phone screens */
@@ -473,14 +435,4 @@ h1 {
   #play-view {
     gap: 5px;
   }
-}
-
-.btn:hover {
-  background-color: #538d4e;
-}
-
-#photo-gallery .polaroid img {
-  border-radius: 0 !important;
-  clip-path: none;
-  overflow: hidden;
 }
