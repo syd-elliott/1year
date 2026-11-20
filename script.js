@@ -466,7 +466,7 @@ function showWinScreen() {
         roscoe: [
           "roscoe's 8th birthday!",
           "deer spotting",
-          "",
+          "tablerock",
           "",
           "penny's 2nd birthday!",
           "sharing a crate lol",
